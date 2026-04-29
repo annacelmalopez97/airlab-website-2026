@@ -2,6 +2,13 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { client, contactPageQuery } from '../lib/sanity';
+
+const cms = await client.fetch(contactPageQuery) ?? {};
+const heroSubtitle = cms.heroSubtitle ?? "Whether you're interested in partnership, research collaboration, or learning more about the RCP platform — we'd love to hear from you.";
+const address = cms.address ?? 'AIR Lab @ WeWork\nSuntec Tower 5\nTemasek Boulevard\nSingapore 038985';
+const apiUrl = cms.apiUrl ?? 'https://open-atms.airlab.aero/public-api/';
+const rcpUrl = cms.rcpUrl ?? 'https://rcp-landing-page.rcp.pub.airlab.thalesdigital.io/';
 ---
 
 <Base title="Contact" description="Get in touch with AIR Lab Singapore — based at WeWork Suntec Tower 5.">
@@ -11,7 +18,7 @@ import Footer from '../components/Footer.astro';
     <div class="page-hero-content">
       <div class="section-label">Get in touch</div>
       <h1>Contact<br><strong>AIR Lab</strong></h1>
-      <p>Whether you're interested in partnership, research collaboration, or learning more about the RCP platform — we'd love to hear from you.</p>
+      <p>{heroSubtitle}</p>
     </div>
   </div>
 
@@ -23,18 +30,18 @@ import Footer from '../components/Footer.astro';
         <div class="contact-detail">
           <div class="contact-item">
             <span class="contact-item-label">Address</span>
-            <span class="contact-item-value">AIR Lab @ WeWork<br>Suntec Tower 5<br>Temasek Boulevard<br>Singapore 038985</span>
+            <span class="contact-item-value" set:html={address.replace(/\n/g, '<br>')}></span>
           </div>
           <div class="contact-item">
             <span class="contact-item-label">Platform</span>
             <span class="contact-item-value">
-              <a href="https://open-atms.airlab.aero/public-api/" target="_blank">Public API Documentation →</a>
+              <a href={apiUrl} target="_blank">Public API Documentation →</a>
             </span>
           </div>
           <div class="contact-item">
             <span class="contact-item-label">RCP Platform</span>
             <span class="contact-item-value">
-              <a href="https://rcp-landing-page.rcp.pub.airlab.thalesdigital.io/" target="_blank">Log In to the RCP →</a>
+              <a href={rcpUrl} target="_blank">Log In to the RCP →</a>
             </span>
           </div>
         </div>
