@@ -1,8 +1,11 @@
 import { createClient } from '@sanity/client';
 
+const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID || 'x0ftpq7o';
+const dataset = import.meta.env.PUBLIC_SANITY_DATASET || 'production';
+
 export const client = createClient({
-  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
-  dataset: import.meta.env.PUBLIC_SANITY_DATASET || 'production',
+  projectId,
+  dataset,
   apiVersion: '2024-01-01',
   useCdn: true,
 });
@@ -12,7 +15,7 @@ export function imageUrl(source: { asset?: { _ref?: string } } | null | undefine
   const ref = source.asset._ref;
   const [, id, dimensions, format] = ref.match(/^image-([a-zA-Z0-9]+)-(\d+x\d+)-(\w+)$/) || [];
   if (!id) return '';
-  const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
+  const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID || 'x0ftpq7o';
   const dataset = import.meta.env.PUBLIC_SANITY_DATASET || 'production';
   return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dimensions}.${format}?w=${width}&auto=format&fit=max&q=80`;
 }
